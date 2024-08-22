@@ -3,21 +3,24 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { emailregex } from "@/utils/regex";
-import { sweetAlertToast } from "../services/toastServices";
-import { login } from "../services/loginService";
-import { saveLocalStorage } from "../services/utils";
-import { useDispatch } from "react-redux";
+import { sweetAlertToast } from "../../../services/toastServices";
+import { login } from "../../../services/loginService";
+import { saveLocalStorage } from "../../../services/utils";
+import { useDispatch } from 'react-redux';
 import { setLoader } from "@/redux/loaderSlice";
 import { hocAuth } from "./hoc/HOCAuth";
+import { useTranslation } from 'react-i18next';
 import Button from "@/app/components/Button";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
+  console.log(t('title'))
   const router = useRouter();
   const handleLogin = async (data: any) => {
     dispatch(setLoader(true));
@@ -27,14 +30,13 @@ const Login: React.FC = () => {
         sweetAlertToast("success", resp.message);
         saveLocalStorage("token", resp.data.token);
         saveLocalStorage("userId", resp.data.id);
-        router.push("/movies-list");
+        router.push(`/movies-list`);
       }
       dispatch(setLoader(false));
     } catch (err: any) {
       const { error } = err.data;
       sweetAlertToast("error", error);
       dispatch(setLoader(false));
-      return;
     }
   };
 
@@ -60,7 +62,7 @@ const Login: React.FC = () => {
               placeholder=" "
             />
             <label className="absolute text-base text-[#1E1E1E80]  duration-300 transform -translate-y-4 scale-75 top-[18px] z-10 origin-[0] start-5 peer-focus:text-[#1E1E1E80]  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-              Email
+              {t("login.email")}
             </label>
             {errors.email && (
               <span className="text-red-500">
@@ -80,7 +82,7 @@ const Login: React.FC = () => {
               placeholder=" "
             />
             <label className="absolute text-base text-[#1E1E1E80]  duration-300 transform -translate-y-4 scale-75 top-[18px] z-10 origin-[0] start-5 peer-focus:text-[#1E1E1E80]  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-              Password
+            {t("login.password")}
             </label>
 
             {errors.password && (
@@ -93,7 +95,7 @@ const Login: React.FC = () => {
           <Button
             type="submit"
             className="mt-4 text-base  w-full h-[58px] p-2 flex justify-center items-center bg-[#E60054] rounded-2xl font-medium text-white hover:bg-[#C20038]"
-            title="Login"
+            title={t("login.button")}
           />
         </form>
       </div>

@@ -1,5 +1,5 @@
 "use client";
-import Spinner from "@/components/spinner";
+import Spinner from "@/app/[locale]/components/spinner";
 import { IRedux } from "@/interfaces/redux";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";

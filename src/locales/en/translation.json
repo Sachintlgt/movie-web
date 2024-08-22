@@ -1,0 +1,43 @@
+{
+    "login": {
+        "email": "Email",
+        "password": "password",
+        "button": "Login"
+    },
+    "pagination": {
+        "previous": "Previous",
+        "next": "Next"
+    },
+    "list": {
+        "empty": "Your movie list is empty",
+        "addNew": "Add a new movie",
+        "header": {
+            "title": "Movies",
+            "logout": "Logout"
+        },
+        "page": {
+            "title": "Movie List"
+        }
+    },
+    "create": {
+        "form": {
+            "title": "Create Movie",
+            "fields": {
+                "title": "Title",
+                "year": "Publishing Year"
+            },
+            "cancel": "Cancel",
+            "submit": "Submit",
+            "update": "Updatde",
+            "validation": {
+                "titleRequired": "Title is required",
+                "titleMin": "Title should be of min 3",
+                "titleMax": "Title should be of max 20",
+                "yearRequired": "Publising Year is required",
+                "yearMin": "Min publishing year should be 1900",
+                "yearMax": "Max publishing year should be 2024",
+                "imageRequired": "Please Select thumbnail"
+            }
+        }
+    }
+}

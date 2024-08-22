@@ -1,8 +1,8 @@
 "use client"
-import Error from "@/components/Error";
-import MovieForm from "@/components/forms/MovieForm";
-import { hocAuth } from "@/components/hoc/HOCAuth";
-import Spinner from "@/components/spinner";
+import Error from "@/app/[locale]/components/Error";
+import MovieForm from "@/app/[locale]/components/forms/MovieForm";
+import { hocAuth } from "@/app/[locale]/components/hoc/HOCAuth";
+import Spinner from "@/app/[locale]/components/spinner";
 import { IMovieForm } from "@/interfaces/MovieFormInterface";
 import { IMovie } from "@/interfaces/movie";
 import { getMovie } from "@/services/movieService";

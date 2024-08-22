@@ -3,12 +3,13 @@ import { FILE_TYPES } from "@/utils/constants";
 import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { useForm } from "react-hook-form";
-import close from "../../../public/images/cross.svg";
+import close from "@/../public/images/cross.svg";
 import Link from "next/link";
 import { createMovie, updateMovie } from "@/services/movieService";
 import { useDispatch } from "react-redux";
 import { setLoader } from "@/redux/loaderSlice";
 import { sweetAlertToast } from "@/services/toastServices";
+import { useTranslation } from 'react-i18next';
 import Button from "@/app/components/Button";
 
 const MovieForm = (props: any) => {
@@ -61,7 +62,7 @@ const MovieForm = (props: any) => {
   };
   // remove file
   const removeImg = () => {
-    setFileError("Please choose thumbnail file.");
+    setFileError(t("create.form.validation.imageRequired"));
     setThumbnailUrl("");
     setThumbnailFile(null);
   };
@@ -69,8 +70,8 @@ const MovieForm = (props: any) => {
   const createOrUpdateMovie = async (data: any) => {
     try {
       if (!movieDetails.id) {
-        if (!thumbnailFile || movieDetails.thumbnail) {
-          setFileError("Please Select thumbnail");
+        if((!thumbnailFile || movieDetails.thumbnail)) {
+          setFileError(t("create.form.validation.imageRequired"));
           return;
         }
       }
@@ -104,6 +105,7 @@ const MovieForm = (props: any) => {
   };
 
   const pageTitle = movieDetails.id ? "Update Movie" : "Create Movie";
+  const { t } = useTranslation();
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="max-w-md w-full bg-[#081e31] px-8 py-12 rounded-lg shadow-lg">
@@ -114,16 +116,16 @@ const MovieForm = (props: any) => {
               htmlFor="title"
               className="block text-white font-medium text-sm mb-2"
             >
-              Title
+              {t("create.form.fields.title")}
             </label>
             <input
               type="text"
               id="title"
               className="bg-[#0b2c44] text-white px-4 py-3 rounded-lg w-full"
               {...register("title", {
-                required: "Title is required",
-                minLength: { value: 3, message: "Title should be of min 3" },
-                maxLength: { value: 20, message: "Title should be of max 20" },
+                required: t("create.form.validation.titleRequired"),
+                minLength: {value: 3, message: t("create.form.validation.titleMin")},
+                maxLength: {value: 20, message: t("create.form.validation.titleMax")},
               })}
             />
             {errors.title && (
@@ -137,7 +139,7 @@ const MovieForm = (props: any) => {
               htmlFor="publishingYear"
               className="block text-white font-medium text-sm mb-2"
             >
-              Publishing Year
+              {t("create.form.fields.year")}
             </label>
             <input
               min={0}
@@ -145,15 +147,9 @@ const MovieForm = (props: any) => {
               id="publishingYear"
               className="bg-[#0b2c44] text-white px-4 py-3 rounded-lg w-full"
               {...register("publishingYear", {
-                required: "Publising Year is required",
-                min: {
-                  value: 1900,
-                  message: "Min publishing year should be 1900",
-                },
-                max: {
-                  value: 2024,
-                  message: "Max publishing year should be 2024",
-                },
+                required: t("create.form.validation.yearRequired"),
+                min: {value: 1900, message: t("create.form.validation.yearMin")},
+                max: {value: 2024, message: t("create.form.validation.yearMax")},
               })}
             />
             {errors.publishingYear && (
@@ -186,7 +182,7 @@ const MovieForm = (props: any) => {
               </>
             )}
             <div className="text-center text-[#ffffff80] text-sm">
-              <p>Drop an image here</p>
+              <p>{t("create.form.validation.imageRequired")}</p>
             </div>
             <FileUploader
               id="thumbnail"
@@ -211,13 +207,14 @@ const MovieForm = (props: any) => {
               type="button"
               className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300"
             >
-              Cancel
+              {t("create.form.cancel")}
             </Link>
             <Button
               type="submit"
               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-300"
-              title={movieDetails.id ? "Update" : "Submit"}
-            />
+              title={movieDetails.id ? t("create.form.update") : t("create.form.submit")}
+            >
+            </Button>
           </div>
         </form>
       </div>

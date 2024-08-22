@@ -1,12 +1,14 @@
 import Button from "@/app/components/Button";
 import { IPagination } from "@/interfaces/pagination";
 import React, { Fragment } from "react";
+import { useTranslation } from "react-i18next";
 
 const Pagination: React.FC<IPagination> = ({
   currentPage,
   totalPages,
   onPageChange,
 }) => {
+  const { t } = useTranslation();
   const handlePageChange = (page: number) => {
     if (page > 0 && page <= totalPages) {
       onPageChange(page);
@@ -22,10 +24,10 @@ const Pagination: React.FC<IPagination> = ({
             ? "bg-gray-300 cursor-not-allowed"
             : "bg-blue-500 text-white"
         }`}
-        title="Previous"
         action={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
-      />
+        title={t("pagination.previous")}
+      ></Button>
       {[...Array(totalPages)].map((_, index) => (
         <Fragment key={index}>
           <Button
@@ -47,10 +49,10 @@ const Pagination: React.FC<IPagination> = ({
             ? "bg-gray-300 cursor-not-allowed"
             : "bg-blue-500 text-white"
         }`}
-        title="Next"
         action={() => handlePageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-      />
+        title={t("pagination.next")}
+      ></Button>
     </div>
   );
 };

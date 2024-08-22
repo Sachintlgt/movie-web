@@ -1,0 +1,42 @@
+{
+    "login": {
+        "email": "Email",
+        "password": "mot de passe",
+        "button": "Se connecter"
+    },
+    "pagination": {
+        "previous": "Précédent",
+        "next": "Suivant"
+    },
+    "list": {
+        "empty": "Votre liste de films est vide",
+        "addNew": "Ajouter un nouveau film",
+        "header": {
+            "title": "Films",
+            "logout": "Déconnexion"
+        },
+        "page": {
+            "title": "Liste des films"
+        }
+    },
+    "create": {
+        "form": {
+            "title": "Créer un film",
+            "fields": {
+                "title": "Titre",
+                "year": "Année de publication"
+            },
+            "cancel": "Annuler",
+            "submit": "Soumettre",
+            "update": "Mettre à jour",
+            "validation": {
+                "titleRequired": "Le titre est requis",
+                "titleMin": "Le titre doit comporter au moins 3 caractères",
+                "titleMax": "Le titre ne doit pas dépasser 20 caractères",
+                "yearRequired": "L'année de publication est requise",
+                "yearMin": "L'année de publication minimale doit être 1900",
+                "yearMax": "L'année de publication maximale doit être 2024"
+            }
+        }
+    }
+}

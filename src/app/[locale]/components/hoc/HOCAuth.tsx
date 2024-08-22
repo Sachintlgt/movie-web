@@ -1,4 +1,6 @@
 "use client"
+import { getLocalStorage } from "@/services/utils";
+import { useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -6,10 +8,11 @@ import { useEffect } from "react";
 export const hocAuth = (OriginalComponent: any) => {
   function HOCAuth(props: any) {
     const router = useRouter();
-    const userToken: any = localStorage.getItem("token");
+    const userToken: any = getLocalStorage("token");
     const pathName = usePathname();
-    const publicPaths = ["/"]; // add public paths here
-    const protectedPaths = ["/movies", "/movie"]; // add protected routes here
+    const locale = useLocale()
+    const publicPaths = [`/${locale}`]; // add public paths here
+    const protectedPaths = [`/${locale}/movies-list`, `/${locale}/movie`]; // add protected routes here
 
     const isPublicPath = publicPaths.includes(pathName);
     const isProtectedPath = protectedPaths.some((path) =>
@@ -18,14 +21,14 @@ export const hocAuth = (OriginalComponent: any) => {
     
     useEffect(() => {
       if (isPublicPath && userToken) {
-        router.push("/movies-list");
+        router.push(`${locale}/movies-list`);
       } else if (isProtectedPath && !userToken) {
-        router.push("/");
+        router.push(`/${locale}`);
       } //eslint-disable-next-line
     }, [isPublicPath, isProtectedPath, userToken, router, pathName]);
 
     if ((isPublicPath && userToken) || (isProtectedPath && !userToken)) {
-      router.push("/");
+      router.push(`/${locale}`);
       return null;
     }
 

@@ -1,6 +1,6 @@
 "use client"
-import MovieForm from "../../../components/forms/MovieForm";
-import { hocAuth } from "@/components/hoc/HOCAuth";
+import MovieForm from "../../components/forms/MovieForm";
+import { hocAuth } from "@/app/[locale]/components/hoc/HOCAuth";
 
 const CreateMovie = () => {
 
