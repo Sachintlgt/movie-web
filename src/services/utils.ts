@@ -7,5 +7,5 @@ export const getLocalStorage = (key: string) => {
 }
 
 export const clearLocalStorage = () => {
-    localStorage.clear();
+    localStorage.removeItem("token");
 }

@@ -14,7 +14,7 @@ const Header = () => {
     <header className="text-white px-6 py-20 md:py-30">
       <div className="max-w-2xl mx-auto flex justify-between items-center">
         <h1 className="text-2xl md:text-5xl font-semibold flex items-center gap-2 md:gap-3">
-          <Link href="/">{t("list.header.title")}</Link>
+          <h1>{t("list.header.title")}</h1>
           <Link className="relative md:top-1" href="/movie/new-movie"><Image src={plus} alt="plus" /></Link>
         </h1>
         <nav>

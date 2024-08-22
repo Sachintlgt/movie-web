@@ -11,16 +11,18 @@ import { useDispatch } from "react-redux";
 import { setLoader } from "@/redux/loaderSlice";
 import { sweetAlertToast } from "@/services/toastServices";
 import { useTranslation } from 'react-i18next';
-import Button from "@/app/components/Button";
+import Button from "../Button";
 import vecter from '@/../public/images/bottom-vector.svg'
 import mobilevecter from '@/../public/images/mobile-vector.svg'
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 const MovieForm = (props: any) => {
   const { t } = useTranslation();
   const { movieDetails } = props;
   const [fileError, setFileError] = useState<string>("");
   const [thumbnailFile, setThumbnailFile] = useState<any>(null);
   const dispatch = useDispatch();
+  const router = useRouter()
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>("");
   const {
     register,
@@ -98,7 +100,7 @@ const MovieForm = (props: any) => {
         sweetAlertToast("info", createdMovieResponse.message);
         dispatch(setLoader(false));
       }
-      // create  api call
+      router.push('/movies-list')
     } catch (error) {
       sweetAlertToast("error", error);
       dispatch(setLoader(false));

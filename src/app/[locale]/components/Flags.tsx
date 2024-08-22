@@ -1,9 +1,8 @@
 "use client";
-
+import { useCookies } from 'react-cookie';
 import React, { Fragment, useEffect, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { useTranslation } from 'react-i18next';
-import i18nConfig from '../i18nConfig';
 import { usePathname, useRouter } from 'next/navigation';
 type FlagKey = 'en' | 'fr';
 const flags = {
@@ -29,6 +28,7 @@ const flags = {
 };
 
 export default function FlagDropdown() {
+  const [, setCookie] = useCookies(['NEXT_LOCALE']);
     const { i18n } = useTranslation();
     const currentLocale = i18n.language;
     const [selectedFlag, setSelectedFlag] =  useState<FlagKey>(currentLocale as FlagKey);
@@ -37,14 +37,9 @@ export default function FlagDropdown() {
 
   useEffect(() => {
     i18n.changeLanguage(selectedFlag);
+    setCookie('NEXT_LOCALE',selectedFlag)
     router.replace(`/${selectedFlag}/${pathname.replace('/fr', '')}`)
-    // if(selectedFlag === 'fr') {
-    //     router.push('/' + selectedFlag + '/' + currentPathname.replace(selectedFlag, ''));
-    // } else {
-    //     router.push('/' + currentPathname.replace('/fr', ''));
-    // }
   }, [selectedFlag])
-
   return (
     <Menu as="div" className="fixed right-4 top-4 inline-block text-left">
       <div>
@@ -65,12 +60,14 @@ export default function FlagDropdown() {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items className="absolute right-0 z-10 mt-2  origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
             <Menu.Item>
               {({ active }) => (
                 <button
-                  onClick={() => setSelectedFlag('en')}
+                  onClick={() =>{
+                    
+                    setSelectedFlag('en')}}
                   className={`${
                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700'
                   } flex w-full items-center px-4 py-2 text-sm`}

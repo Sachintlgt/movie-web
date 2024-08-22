@@ -5,7 +5,7 @@ const MovieCard: React.FC<IMovie> = ({id, image_url, title, year}) => {
   console.log(image_url, 'image_url');
   
   return (
-    <div className="w-full rounded-xl overflow-hidden shadow-lg bg-secondary p-2 pb-2">
+    <div className="w-full rounded-xl overflow-hidden shadow-lg bg-secondary p-2 pb-2 hover:cursor-pointer">
       <img 
         src={image_url} 
         alt={title} 

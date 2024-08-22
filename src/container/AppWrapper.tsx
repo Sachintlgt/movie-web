@@ -1,5 +1,5 @@
 "use client";
-import FlagDropdown from "@/app/components/Flags";
+import FlagDropdown from "@/app/[locale]/components/Flags";
 import Spinner from "@/app/[locale]/components/spinner";
 import { IRedux } from "@/interfaces/redux";
 import React, { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-import Button from "@/app/components/Button";
+import Button from "./Button";
 import { IPagination } from "@/interfaces/pagination";
 import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";

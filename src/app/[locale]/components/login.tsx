@@ -10,10 +10,11 @@ import { useDispatch } from 'react-redux';
 import { setLoader } from "@/redux/loaderSlice";
 import { hocAuth } from "./hoc/HOCAuth";
 import { useTranslation } from 'react-i18next';
-import Button from "@/app/components/Button";
+import Button from "./Button";
 import Image from "next/image";
 import vecter from "@/../public/images/bottom-vector.svg"
 import mobilevector from "@/../public/images/mobile-vector.svg"
+import FlagDropdown from "./Flags";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -45,12 +46,13 @@ const Login: React.FC = () => {
 
   return (
     <div className="flex w-full overflow-auto min-h-screen items-center justify-center flex-col bg-body relative p-3">
+      <FlagDropdown/>
       <div className="max-w-[300px] w-full py-2">
         <form
           className="flex gap-6 w-full flex-col"
           onSubmit={handleSubmit(handleLogin)}
         >
-          <h1 className="text-center text-white text-4xl md:text-6xxl md:leading-20 font-semibold">Sign in</h1>
+          <h1 className="text-center text-white text-4xl md:text-6xxl md:leading-20 font-semibold">{t("login.signin")}</h1>
           <div className="relative w-full">
             <input
               {...register("email", {

@@ -1,8 +1,9 @@
 {
     "login": {
+        "signin": "Secoecter",
         "email": "Email",
-        "password": "mot de passe",
-        "button": "Se connecter"
+        "password": "Mot de passe",
+        "button": "Connexion"
     },
     "pagination": {
         "previous": "Précédent",
@@ -32,10 +33,11 @@
             "validation": {
                 "titleRequired": "Le titre est requis",
                 "titleMin": "Le titre doit comporter au moins 3 caractères",
-                "titleMax": "Le titre ne doit pas dépasser 20 caractères",
+                "titleMax": "Le titre doit comporter au maximum 20 caractères",
                 "yearRequired": "L'année de publication est requise",
                 "yearMin": "L'année de publication minimale doit être 1900",
-                "yearMax": "L'année de publication maximale doit être 2024"
+                "yearMax": "L'année de publication maximale doit être 2024",
+                "imageRequired": "Veuillez sélectionner une miniature"
             }
         }
     }
