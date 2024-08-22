@@ -36,7 +36,6 @@ const callApi = async (
   method: "get" | "post" | "patch" | "delete" | "put" = "get",
   body: {} | null = null
 ) => {
-  console.log(22, process.env.NEXT_PUBLIC_BASE_URL)
   try {
     const res = await request<IAPI>({
       url,

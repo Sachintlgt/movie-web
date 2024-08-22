@@ -7,13 +7,14 @@ export const hocAuth = (OriginalComponent: any) => {
     const router = useRouter();
     const userToken: any = localStorage.getItem("token");
     const pathName = usePathname();
-    const publicPaths = [
-      "/"
-    ]; // add public paths here
-    const protectedPaths = ["movies", "movie"]; // add protected routes here
+    const publicPaths = ["/"]; // add public paths here
+    const protectedPaths = ["/movies", "/movie"]; // add protected routes here
 
-    const isPublicPath = publicPaths.some((path) => pathName.startsWith(path));
-    const isProtectedPath = protectedPaths.includes(pathName);
+    const isPublicPath = publicPaths.includes(pathName);
+    const isProtectedPath = protectedPaths.some((path) =>
+      pathName.startsWith(path)
+    );
+    
     useEffect(() => {
       if (isPublicPath && userToken) {
         router.push("/movies");

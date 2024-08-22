@@ -8,6 +8,7 @@ import { login } from "../services/loginService";
 import { saveLocalStorage } from "../services/utils";
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoader } from "@/redux/loaderSlice";
+import { hocAuth } from "@/app/components/hoc/HOCAuth";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -99,5 +100,4 @@ const Login: React.FC = () => {
     </div>
   );
 };
-
-export default Login;
+export default hocAuth(Login);
