@@ -2,29 +2,30 @@
 import { clearLocalStorage } from "@/services/utils";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import plus from "../../public/images/plus-circle.svg"
+import logout from "../../public/images/logout.svg"
 
 const Header = () => {
   const router = useRouter();
   return (
-    <header className="bg-gray-800 text-white p-4">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-2xl font-bold">
-          <Link href="/">Movies</Link>
-        <Link href="/movie/new-movie"> +</Link>
+    <header className="text-white px-6 py-20 md:py-30">
+      <div className="max-w-2xl mx-auto flex justify-between items-center">
+        <h1 className="text-2xl md:text-5xl font-semibold flex items-center gap-2 md:gap-3">
+          <Link href="/movie/new-movie">Movies</Link>
+          <Link className="relative md:top-1" href="/movie/new-movie"><Image src={plus} alt="plus" /></Link>
         </h1>
         <nav>
-          <ul className="flex space-x-4">
-            <li
-              className="hover:underline"
+            <div
+              className="hover:underline flex gap-3 items-center text-base font-bold cursor-pointer"
               onClick={() => {
                 // logout
                 clearLocalStorage();
                 router.push("/");
               }}
             >
-              Logout
-            </li>
-          </ul>
+              <span className="hidden md:block">Logout</span> <Image src={logout} alt="logout" />
+            </div> 
         </nav>
       </div>
     </header>

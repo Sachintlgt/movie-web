@@ -14,15 +14,15 @@ const Pagination: React.FC<IPagination> = ({
   };
 
   return (
-    <div className="flex items-center justify-center mt-6">
+    <div className="flex items-center justify-center pt-20 mb-5">
       <Button
         type="button"
-        className={`px-4 py-2 mx-1 border rounded ${
+        className={`px-4 py-2 mx-1 text-white font-bold rounded ${
           currentPage === 1
-            ? "bg-gray-300 cursor-not-allowed"
-            : "bg-blue-500 text-white"
+            ? "cursor-not-allowed text-gray-500"
+            : "text-white"
         }`}
-        title="Previous"
+        title="Prev"
         action={() => handlePageChange(currentPage - 1)}
         disabled={currentPage === 1}
       />
@@ -30,10 +30,10 @@ const Pagination: React.FC<IPagination> = ({
         <Fragment key={index}>
           <Button
             type="button"
-            className={`px-4 py-2 mx-1 border rounded ${
+            className={`px-3 py-1 mx-1 font-bold border rounded ${
               currentPage === index + 1
-                ? "bg-blue-600 text-white"
-                : "bg-blue-500 text-white"
+                ? "bg-primary text-white border-primary"
+                : "bg-secondary text-white border-secondary"
             }`}
             title={String(index + 1)}
             action={() => handlePageChange(index + 1)}
@@ -42,10 +42,10 @@ const Pagination: React.FC<IPagination> = ({
       ))}
       <Button
         type="button"
-        className={`px-4 py-2 mx-1 border rounded ${
+        className={`px-4 py-2 mx-1 text-white font-bold rounded ${
           currentPage === totalPages
-            ? "bg-gray-300 cursor-not-allowed"
-            : "bg-blue-500 text-white"
+            ? "cursor-not-allowed text-gray-500"
+            : "text-white"
         }`}
         title="Next"
         action={() => handlePageChange(currentPage + 1)}

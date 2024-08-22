@@ -13,6 +13,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import Image from "next/image";
+import vecter from "../../../public/images/bottom-vector.svg"
+import mobileVecter from "../../../public/images/mobile-vector.svg"
 
 const MoviesPage = () => {
   const loader = useSelector((state: IRedux) => state.loader.loading);
@@ -23,7 +26,6 @@ const MoviesPage = () => {
   const page = searchParams.get("page") || "1";
   const dispatch = useDispatch();
   const movies: IMovie[] = useSelector((state: IRedux) => state.movieList);
-  console.log(movies, "movies");
 
   useEffect(() => {
     (async () => {
@@ -45,18 +47,24 @@ const MoviesPage = () => {
   }, [page]);
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const handleMovieClick = (id: number) => {
+    push(`/movie/${id}`);
+  };
   return movies.length === 0 && !loader ? (
     <MovieListEmpty />
   ) : (
     <>
       <Header />
-      <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-4">Movie List</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="max-w-2xl mx-auto p-4 py-0 md:min-h-fix"> 
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
           {movies.map((movie) => (
-            <li key={movie.id} className="mb-2">
+            <div
+              key={movie.id}
+              onClick={() => handleMovieClick(movie.id)}
+            >
               <MovieCard {...movie} />
-            </li>
+            </div>
           ))}
         </div>
         <Pagination
@@ -67,6 +75,8 @@ const MoviesPage = () => {
           }}
         />
       </div>
+      <Image className="w-full sticky bottom-0 hidden sm:block" src={vecter} alt="vector"/>
+      <Image className="w-full sticky bottom-0 block sm:hidden" src={mobileVecter} alt="vector"/>
     </>
   );
 };

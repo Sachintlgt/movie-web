@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux";
 import { setLoader } from "@/redux/loaderSlice";
 import { hocAuth } from "./hoc/HOCAuth";
 import Button from "@/app/components/Button";
+import Image from "next/image";
+import vecter from "../../public/images/bottom-vector.svg"
+import mobilevector from "../../public/images/mobile-vector.svg"
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -39,12 +42,13 @@ const Login: React.FC = () => {
   };
 
   return (
-    <div className="flex w-full overflow-auto min-h-screen items-center md:justify-center flex-col bg-[#F5F3EF] relative p-6 pb-32 md:pb-0">
-      <div className="max-w-[270px] sm:max-w-[484px] w-full py-2">
+    <div className="flex w-full overflow-auto min-h-screen items-center justify-center flex-col bg-body relative p-3">
+      <div className="max-w-[300px] w-full py-2">
         <form
-          className="flex gap-4 w-full flex-col"
+          className="flex gap-6 w-full flex-col"
           onSubmit={handleSubmit(handleLogin)}
         >
+          <h1 className="text-center text-white text-4xl md:text-6xxl md:leading-20 font-semibold">Sign in</h1>
           <div className="relative w-full">
             <input
               {...register("email", {
@@ -56,14 +60,11 @@ const Login: React.FC = () => {
               })}
               type="text"
               id="email"
-              className="block rounded-2xl px-5 pb-3 pt-6 w-full text-base text-[#1E1E1E] bg-[#EDEBE3]  border border-[#E6E3D6] appearance-none focus:outline-none focus:ring-0 focus:border-[#E60054] peer"
-              placeholder=" "
+              className="block rounded-2lg px-4 py-3 w-full text-sm text-white bg-input-bg  border border-input-bg  appearance-none focus:outline-none focus:ring-0 focus:border-input-bg  peer"
+              placeholder="Email"
             />
-            <label className="absolute text-base text-[#1E1E1E80]  duration-300 transform -translate-y-4 scale-75 top-[18px] z-10 origin-[0] start-5 peer-focus:text-[#1E1E1E80]  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-              Email
-            </label>
             {errors.email && (
-              <span className="text-red-500">
+              <span className="text-red-500 text-sm">
                 {(errors.email as { message: string }).message}
               </span>
             )}
@@ -76,15 +77,11 @@ const Login: React.FC = () => {
               })}
               type={"password"}
               id="password"
-              className="block rounded-2xl px-5 pb-3 pt-6 pr-12 w-full text-base text-[#1E1E1E] bg-[#EDEBE3]  border border-[#E6E3D6] appearance-none focus:outline-none focus:ring-0 focus:border-[#E60054] peer"
-              placeholder=" "
+              className="block rounded-2lg px-4 py-3 w-full text-sm text-white bg-input-bg  border border-input-bg  appearance-none focus:outline-none focus:ring-0 focus:border-input-bg  peer"
+              placeholder="Password"
             />
-            <label className="absolute text-base text-[#1E1E1E80]  duration-300 transform -translate-y-4 scale-75 top-[18px] z-10 origin-[0] start-5 peer-focus:text-[#1E1E1E80]  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto">
-              Password
-            </label>
-
-            {errors.password && (
-              <span className="text-red-500">
+             {errors.password && (
+              <span className="text-red-500 text-sm">
                 {(errors.password as { message: string }).message}
               </span>
             )}
@@ -92,11 +89,13 @@ const Login: React.FC = () => {
 
           <Button
             type="submit"
-            className="mt-4 text-base  w-full h-[58px] p-2 flex justify-center items-center bg-[#E60054] rounded-2xl font-medium text-white hover:bg-[#C20038]"
+            className="rounded-2lg text-base font-bold  w-full h-[46px]  p-2.5 flex justify-center items-center bg-primary text-white hover:bg-primary"
             title="Login"
           />
         </form>
       </div>
+      <Image src={vecter} alt="vector"  className="absolute bottom-0 pointer-events-none w-full hidden sm:block" />
+      <Image src={mobilevector} alt="vector"  className="absolute bottom-0 pointer-events-none w-full block sm:hidden" />
     </div>
   );
 };
