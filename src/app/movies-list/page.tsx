@@ -22,7 +22,7 @@ const MoviesPage = () => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || "1";
   const dispatch = useDispatch();
-  const movies: IMovie[] = useSelector((state: any) => state.movieList);
+  const movies: IMovie[] = useSelector((state: IRedux) => state.movieList);
   console.log(movies, "movies");
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { FILE_TYPES } from "@/utils/constants";
 import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
@@ -9,6 +9,7 @@ import { createMovie, updateMovie } from "@/services/movieService";
 import { useDispatch } from "react-redux";
 import { setLoader } from "@/redux/loaderSlice";
 import { sweetAlertToast } from "@/services/toastServices";
+import Button from "@/app/components/Button";
 
 const MovieForm = (props: any) => {
   const { movieDetails } = props;
@@ -30,14 +31,13 @@ const MovieForm = (props: any) => {
   });
 
   useEffect(() => {
-    debugger
     reset({
       title: movieDetails.title,
       publishingYear: movieDetails.year,
       thumbnail: movieDetails.thumbnail,
-    })
-    setThumbnailUrl(movieDetails.image_url)
-}, [movieDetails]);
+    });
+    setThumbnailUrl(movieDetails.image_url);
+  }, [movieDetails]);
 
   //   validate the file formats
   const validateFile = (error: string) => {
@@ -69,7 +69,7 @@ const MovieForm = (props: any) => {
   const createOrUpdateMovie = async (data: any) => {
     try {
       if (!movieDetails.id) {
-        if((!thumbnailFile || movieDetails.thumbnail)) {
+        if (!thumbnailFile || movieDetails.thumbnail) {
           setFileError("Please Select thumbnail");
           return;
         }
@@ -82,8 +82,8 @@ const MovieForm = (props: any) => {
         formData.append("image", thumbnailFile);
       }
       dispatch(setLoader(true));
-      let createdMovieResponse
-      if(movieDetails.id) {
+      let createdMovieResponse;
+      if (movieDetails.id) {
         createdMovieResponse = await updateMovie(movieDetails.id, formData);
       } else {
         createdMovieResponse = await createMovie(formData);
@@ -122,8 +122,8 @@ const MovieForm = (props: any) => {
               className="bg-[#0b2c44] text-white px-4 py-3 rounded-lg w-full"
               {...register("title", {
                 required: "Title is required",
-                minLength: {value: 3, message: "Title should be of min 3"},
-                maxLength: {value: 20, message: "Title should be of max 20"},
+                minLength: { value: 3, message: "Title should be of min 3" },
+                maxLength: { value: 20, message: "Title should be of max 20" },
               })}
             />
             {errors.title && (
@@ -146,8 +146,14 @@ const MovieForm = (props: any) => {
               className="bg-[#0b2c44] text-white px-4 py-3 rounded-lg w-full"
               {...register("publishingYear", {
                 required: "Publising Year is required",
-                min: {value: 1900, message: "Min publishing year should be 1900"},
-                max: {value: 2024, message: "Max publishing year should be 2024"},
+                min: {
+                  value: 1900,
+                  message: "Min publishing year should be 1900",
+                },
+                max: {
+                  value: 2024,
+                  message: "Max publishing year should be 2024",
+                },
               })}
             />
             {errors.publishingYear && (
@@ -207,12 +213,11 @@ const MovieForm = (props: any) => {
             >
               Cancel
             </Link>
-            <button
+            <Button
               type="submit"
               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-300"
-            >
-              {movieDetails.id ? "Update" : "Submit"}
-            </button>
+              title={movieDetails.id ? "Update" : "Submit"}
+            />
           </div>
         </form>
       </div>

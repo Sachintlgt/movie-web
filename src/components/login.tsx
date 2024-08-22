@@ -6,9 +6,10 @@ import { emailregex } from "@/utils/regex";
 import { sweetAlertToast } from "../services/toastServices";
 import { login } from "../services/loginService";
 import { saveLocalStorage } from "../services/utils";
-import { useDispatch } from 'react-redux';
+import { useDispatch } from "react-redux";
 import { setLoader } from "@/redux/loaderSlice";
 import { hocAuth } from "./hoc/HOCAuth";
+import Button from "@/app/components/Button";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -89,12 +90,11 @@ const Login: React.FC = () => {
             )}
           </div>
 
-          <button
+          <Button
             type="submit"
             className="mt-4 text-base  w-full h-[58px] p-2 flex justify-center items-center bg-[#E60054] rounded-2xl font-medium text-white hover:bg-[#C20038]"
-          >
-            Login
-          </button>
+            title="Login"
+          />
         </form>
       </div>
     </div>
