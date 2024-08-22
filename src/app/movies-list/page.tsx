@@ -1,8 +1,6 @@
 "use client";
-import Header from "@/app/[locale]/components/header";
-import MovieCard from "@/app/[locale]/components/movieCard";
-import MovieListEmpty from "@/app/[locale]/components/movieListEmpty";
-import Pagination from "@/app/[locale]/components/pagination";
+
+import MovieListEmpty from "@/components/movieListEmpty";
 import { IMovie } from "@/interfaces/movie";
 import { IRedux } from "@/interfaces/redux";
 import { setLoader } from "@/redux/loaderSlice";
@@ -13,14 +11,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import Image from "next/image";
-import vecter from "@/../public/images/bottom-vector.svg"
-import mobileVecter from "@/../public/images/mobile-vector.svg"
-import { useTranslation } from "react-i18next";
-import { hocAuth } from "../components/hoc/HOCAuth";
+import Header from "../[locale]/components/header";
+import MovieCard from "../[locale]/components/movieCard";
+import Pagination from "../[locale]/components/pagination";
 
 const MoviesPage = () => {
-  const { t } = useTranslation();
   const loader = useSelector((state: IRedux) => state.loader.loading);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 10;
@@ -29,6 +24,7 @@ const MoviesPage = () => {
   const page = searchParams.get("page") || "1";
   const dispatch = useDispatch();
   const movies: IMovie[] = useSelector((state: IRedux) => state.movieList);
+  console.log(movies, "movies");
 
   useEffect(() => {
     (async () => {
@@ -50,24 +46,18 @@ const MoviesPage = () => {
   }, [page]);
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-
-  const handleMovieClick = (id: number) => {
-    push(`/movie/${id}`);
-  };
   return movies.length === 0 && !loader ? (
     <MovieListEmpty />
   ) : (
     <>
       <Header />
-      <div className="max-w-2xl mx-auto p-4 py-0 md:min-h-fix"> 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="container mx-auto p-4">
+        <h1 className="text-3xl font-bold mb-4">Movie List</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {movies.map((movie) => (
-            <div
-              key={movie.id}
-              onClick={() => handleMovieClick(movie.id)}
-            >
+            <li key={movie.id} className="mb-2">
               <MovieCard {...movie} />
-            </div>
+            </li>
           ))}
         </div>
         <Pagination
@@ -78,10 +68,8 @@ const MoviesPage = () => {
           }}
         />
       </div>
-      <Image className="w-full sticky bottom-0 hidden sm:block" src={vecter} alt="vector"/>
-      <Image className="w-full sticky bottom-0 block sm:hidden" src={mobileVecter} alt="vector"/>
     </>
   );
 };
 
-export default hocAuth(MoviesPage);
+export default MoviesPage;

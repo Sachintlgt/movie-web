@@ -1,16 +1,17 @@
 "use client"
 import { getLocalStorage } from "@/services/utils";
-import { useLocale } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 
 export const hocAuth = (OriginalComponent: any) => {
   function HOCAuth(props: any) {
     const router = useRouter();
     const userToken: any = getLocalStorage("token");
     const pathName = usePathname();
-    const locale = useLocale()
+    const { t, i18n } = useTranslation();
+    const locale = i18n.language;
     const publicPaths = [`/${locale}`]; // add public paths here
     const protectedPaths = [`/${locale}/movies-list`, `/${locale}/movie`]; // add protected routes here
 

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { useForm } from "react-hook-form";
 import close from "@/../public/images/cross.svg";
+import download from "@/../public/images/download_black.svg";
 import Link from "next/link";
 import { createMovie, updateMovie } from "@/services/movieService";
 import { useDispatch } from "react-redux";
@@ -11,8 +12,11 @@ import { setLoader } from "@/redux/loaderSlice";
 import { sweetAlertToast } from "@/services/toastServices";
 import { useTranslation } from 'react-i18next';
 import Button from "@/app/components/Button";
-
+import vecter from '@/../public/images/bottom-vector.svg'
+import mobilevecter from '@/../public/images/mobile-vector.svg'
+import Image from "next/image";
 const MovieForm = (props: any) => {
+  const { t } = useTranslation();
   const { movieDetails } = props;
   const [fileError, setFileError] = useState<string>("");
   const [thumbnailFile, setThumbnailFile] = useState<any>(null);
@@ -27,7 +31,7 @@ const MovieForm = (props: any) => {
     defaultValues: {
       title: movieDetails.title,
       publishingYear: movieDetails.publishingYear,
-      thumbnail: movieDetails.thumbnail,
+      thumbnail: movieDetails.image_url,
     },
   });
 
@@ -63,6 +67,7 @@ const MovieForm = (props: any) => {
   // remove file
   const removeImg = () => {
     setFileError(t("create.form.validation.imageRequired"));
+    movieDetails.image_url = "";
     setThumbnailUrl("");
     setThumbnailFile(null);
   };
@@ -104,121 +109,155 @@ const MovieForm = (props: any) => {
     createOrUpdateMovie(data);
   };
 
-  const pageTitle = movieDetails.id ? "Update Movie" : "Create Movie";
-  const { t } = useTranslation();
+  const pageTitle = movieDetails.id ? "Edit" : "Create Movie";
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="max-w-md w-full bg-[#081e31] px-8 py-12 rounded-lg shadow-lg">
-        <h2 className="text-white text-2xl font-bold mb-6">{pageTitle}</h2>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-6">
-            <label
-              htmlFor="title"
-              className="block text-white font-medium text-sm mb-2"
-            >
-              {t("create.form.fields.title")}
-            </label>
-            <input
-              type="text"
-              id="title"
-              className="bg-[#0b2c44] text-white px-4 py-3 rounded-lg w-full"
-              {...register("title", {
-                required: t("create.form.validation.titleRequired"),
-                minLength: {value: 3, message: t("create.form.validation.titleMin")},
-                maxLength: {value: 20, message: t("create.form.validation.titleMax")},
-              })}
-            />
-            {errors.title && (
-              <span className="text-red-500">
-                {(errors.title as { message: string }).message}
-              </span>
-            )}
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="publishingYear"
-              className="block text-white font-medium text-sm mb-2"
-            >
-              {t("create.form.fields.year")}
-            </label>
-            <input
-              min={0}
-              type="number"
-              id="publishingYear"
-              className="bg-[#0b2c44] text-white px-4 py-3 rounded-lg w-full"
-              {...register("publishingYear", {
-                required: t("create.form.validation.yearRequired"),
-                min: {value: 1900, message: t("create.form.validation.yearMin")},
-                max: {value: 2024, message: t("create.form.validation.yearMax")},
-              })}
-            />
-            {errors.publishingYear && (
-              <span className="text-red-500">
-                {(errors.publishingYear as { message: string }).message}
-              </span>
-            )}
-          </div>
-          <div className="mb-6 border border-dashed border-[#D1CFC7] rounded-lg h-48 w-full overflow-hidden relative flex items-center justify-center">
-            {thumbnailUrl && (
-              <>
-                <button
-                  type="button"
-                  className="w-5 h-5 rounded-full bg-[#ffffff] flex items-center justify-center absolute right-2.5 top-2.5 hover:bg-[#454545]"
-                >
-                  <img
+    <>
+    <div className="flex justify-center px-6">
+      <div className="max-w-2xl w-full">
+        <h2 className="text-2xl md:text-5xl font-semibold text-white py-20  md:py-30">
+          {pageTitle}
+        </h2>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-wrap flex-col-reverse md:flex-row md:flex-nowrap gap-5 md:gap-x-[120px]"
+        > 
+          <div className="md:max-w-[450px] w-full">
+          <div className="md:max-w-[450px] w-full">
+            <div className="file-upload border-2 border-dashed border-white bg-input-bg rounded-2lg h-80 md:h-[500px] w-full overflow-hidden relative flex flex-col gap-2 items-center justify-center">
+              {thumbnailUrl || movieDetails.image_url ? (
+                <>
+                  <button
+                    type="button"
                     onClick={removeImg}
-                    className="object-cover h-2"
-                    src={close}
-                    alt="dog"
+                     
+                    className="w-5 h-5 rounded-full bg-[#ffffff] flex items-center justify-center absolute right-2.5 top-2.5 hover:bg-[#454545]"
+                  >
+                  
+                    <Image src={close} alt="close" className="h-2"/>
+                  </button>
+                  <img
+                    width={1068}
+                    height={646}
+                    className="h-full w-full object-cover"
+                    src={thumbnailUrl ? thumbnailUrl : movieDetails.image_url}
+                    alt="Thumbnail"
                   />
-                </button>
-                <img
-                  width={1068}
-                  height={646}
-                  className="h-full w-full object-cover"
-                  src={thumbnailUrl}
-                  alt="Thumbnail"
-                />
-              </>
-            )}
-            <div className="text-center text-[#ffffff80] text-sm">
-              <p>{t("create.form.validation.imageRequired")}</p>
+                </>
+              ) : (
+                <>
+                  <FileUploader
+                    id="thumbnail"
+                    onTypeError={(error: any) => validateFile(error)}
+                    onSizeError={(error: any) => validateFile(error)}
+                    maxSize={5}
+                    multiple={false}
+                    handleChange={(file: any) => handleFile(file)}
+                    name="file" 
+                    types={FILE_TYPES}
+                  >
+                <div className="flex flex-col items-center">
+                <Image src={download} className="mb-2" alt="download" />
+                    <div className="text-center text-white text-sm">
+                      Drop an image here
+                    </div>
+                </div>
+                  </FileUploader>
+                </>
+              )}
+
+           
             </div>
-            <FileUploader
-              id="thumbnail"
-              onTypeError={(error: any) => validateFile(error)}
-              onSizeError={(error: any) => validateFile(error)}
-              maxSize={5}
-              multiple={false}
-              className="hidden"
-              handleChange={(file: any) => handleFile(file)}
-              name="file"
-              types={FILE_TYPES}
-            />
+            {fileError && (
+              <p className="text-red-500 font-medium text-sm mt-2">
+                {fileError}{" "}
+              </p>
+            )}
           </div>
-          {fileError && (
-            <p className="text-red-500 font-medium text-sm mt-2">
-              {fileError}{" "}
-            </p>
-          )}
-          <div className="flex justify-end space-x-4">
-            <Link
-              href="/"
-              type="button"
-              className="bg-gray-700 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300"
-            >
-              {t("create.form.cancel")}
-            </Link>
-            <Button
-              type="submit"
-              className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors duration-300"
-              title={movieDetails.id ? t("create.form.update") : t("create.form.submit")}
-            >
-            </Button>
+          <div className="flex md:hidden  space-x-4 mt-10 md:mt-16 mb-4 ">
+              <Link
+                href="/"
+                type="button"
+                className="bg-transparent border flex items-center border-white text-white px-10 md:px-12 py-2 text-base font-bold h-12 rounded-2lg hover:bg-secondary hover:border-secondary transition-colors duration-300"
+              >
+                Cancel
+              </Link>
+              <Button
+                type="submit"
+                className="bg-primary text-white px-10 md:px-12 py-2 text-base font-bold h-12 rounded-2lg hover:bg-secondary  transition-colors duration-300"
+                title={movieDetails.id ? "Update" : "Submit"}
+              />
+            </div>
+            </div>
+          <div className="md:max-w-[360px] w-full">
+            <div className="mb-6">
+              <input
+                type="text"
+                id="title"
+                placeholder="Title"
+                className="block rounded-2lg px-4 py-3 w-full text-sm text-white bg-input-bg  border border-input-bg  appearance-none focus:outline-none focus:ring-0 focus:border-input-bg  peer"
+                {...register("title", {
+                  required: "Title is required",
+                  minLength: { value: 3, message: "Title should be of min 3" },
+                  maxLength: {
+                    value: 20,
+                    message: "Title should be of max 20",
+                  },
+                })}
+              />
+              {errors.title && (
+                <span className="text-red-500">
+                  {(errors.title as { message: string }).message}
+                </span>
+              )}
+            </div>
+            <div className="mb-6">
+              <input
+                min={0}
+                type="number"
+                id="publishingYear"
+                placeholder="Publishing year"
+                className="block appearance-none  w-full md:w-auto rounded-2lg px-4 py-3  text-sm text-white bg-input-bg  border border-input-bg    focus:outline-none focus:ring-0 focus:border-input-bg  peer"
+                {...register("publishingYear", {
+                  required: "Publising Year is required",
+                  min: {
+                    value: 1900,
+                    message: "Min publishing year should be 1900",
+                  },
+                  max: {
+                    value: 2024,
+                    message: "Max publishing year should be 2024",
+                  },
+                })}
+              />
+              {errors.publishingYear && (
+                <span className="text-red-500">
+                  {(errors.publishingYear as { message: string }).message}
+                </span>
+              )}
+            </div>
+
+            <div className="hidden md:flex  space-x-4 mt-10 md:mt-16 mb-4 ">
+              <Link
+                href="/"
+                type="button"
+                className="bg-transparent border flex items-center border-white text-white px-8 md:px-12 py-2 text-base font-bold h-12 rounded-2lg hover:bg-secondary hover:border-secondary transition-colors duration-300"
+              >
+                Cancel
+              </Link>
+              <Button
+                type="submit"
+                className="bg-primary text-white px-8 md:px-12 py-2 text-base font-bold h-12 rounded-2lg hover:bg-secondary  transition-colors duration-300"
+                title={movieDetails.id ? "Update" : "Submit"}
+              />
+            </div>
           </div>
         </form>
       </div>
+
     </div>
+      <Image src={vecter} alt="vector"  className=" pointer-events-none w-full hidden sm:block" />
+    <Image src={mobilevecter} alt="vector"  className=" pointer-events-none w-full block sm:hidden" />
+      </>
   );
 };
 
