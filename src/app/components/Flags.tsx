@@ -3,8 +3,8 @@
 import React, { Fragment, useEffect, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { useTranslation } from 'react-i18next';
-import { usePathname, useRouter } from 'next/navigation';
 import i18nConfig from '../i18nConfig';
+import { usePathname, useRouter } from 'next/navigation';
 type FlagKey = 'en' | 'fr';
 const flags = {
   en: (
@@ -32,16 +32,17 @@ export default function FlagDropdown() {
     const { i18n } = useTranslation();
     const currentLocale = i18n.language;
     const [selectedFlag, setSelectedFlag] =  useState<FlagKey>(currentLocale as FlagKey);
-  const router = useRouter();
-  const currentPathname = usePathname();
+    const router = useRouter();
+    const pathname = usePathname()
 
   useEffect(() => {
-    debugger
-    if(selectedFlag === 'fr') {
-        router.push('/' + selectedFlag + '/' + currentPathname.replace(selectedFlag, ''));
-    } else {
-        router.push('/' + currentPathname.replace('/fr', ''));
-    }
+    i18n.changeLanguage(selectedFlag);
+    router.replace(`/${selectedFlag}/${pathname.replace('/fr', '')}`)
+    // if(selectedFlag === 'fr') {
+    //     router.push('/' + selectedFlag + '/' + currentPathname.replace(selectedFlag, ''));
+    // } else {
+    //     router.push('/' + currentPathname.replace('/fr', ''));
+    // }
   }, [selectedFlag])
 
   return (
