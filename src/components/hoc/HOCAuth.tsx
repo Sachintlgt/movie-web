@@ -1,3 +1,4 @@
+"use client"
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -10,10 +11,13 @@ export const hocAuth = (OriginalComponent: any) => {
     const publicPaths = [
       "/"
     ]; // add public paths here
-    const protectedPaths = ["movies", "movie"]; // add protected routes here
+    const protectedPaths = ["/movies", "/movie"]; // add protected routes here
 
-    const isPublicPath = publicPaths.some((path) => pathName.startsWith(path));
-    const isProtectedPath = protectedPaths.includes(pathName);
+    const isPublicPath = publicPaths.includes(pathName);
+    const isProtectedPath = protectedPaths.some((path) => pathName.startsWith(path));
+    console.log(isProtectedPath, 'isprotected');
+    console.log(isPublicPath, 'isPublicPath');
+    
     useEffect(() => {
       if (isPublicPath && userToken) {
         router.push("/movies");

@@ -1,24 +1,38 @@
-"use client";
-import MovieForm from "@/app/components/forms/MovieForm";
-import { hocAuth } from "@/app/components/hoc/HOCAuth";
-import { MovieFormInterface } from "@/app/utility/interface/MovieFormInterface";
+"use client"
+import MovieForm from "@/components/forms/MovieForm";
+import { hocAuth } from "@/components/hoc/HOCAuth";
+import { IMovieForm } from "@/interfaces/MovieFormInterface";
+import { IMovie } from "@/interfaces/movie";
+import { getMovie } from "@/services/movieService";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const UpdateMovie = ({ params }: any) => {
   const { id } = params;
-  console.log(id, "id");
 
-  const [movieDetails, setMovieDetails] = useState<MovieFormInterface>({
+  if(isNaN(+id)) {
+    return <div>Error</div>
+  }
+
+  
+  const [movieDetails, setMovieDetails] = useState<IMovie | null>({
+    id: 0,
+    image_url: "",
     title: "",
-    publishingYear: null,
-    thumbnail: "",
-    id: 2,
+    year: "0"
   });
   useEffect(() => {
     (async () => {
       try {
         // api call to get the movie details
-      } catch (error: any) {}
+        const movie = await getMovie(+id);
+        if(movie.status === 200) {
+          setMovieDetails(movie.data)
+          debugger
+        }
+      } catch (error: any) {
+        console.log(error)
+      }
     })();
   }, []);
   return <MovieForm movieDetails={movieDetails} />;

@@ -1,19 +1,25 @@
-import { FILE_TYPES } from "@/app/utility/constants";
-import Image from "next/image";
-import React, { useState } from "react";
+"use client"
+import { FILE_TYPES } from "@/utils/constants";
+import React, { useEffect, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { useForm } from "react-hook-form";
-import close from "../../../../public/images/cross.svg";
+import close from "../../../public/images/cross.svg";
 import Link from "next/link";
+import { createMovie, updateMovie } from "@/services/movieService";
+import { useDispatch } from "react-redux";
+import { setLoader } from "@/redux/loaderSlice";
+import { sweetAlertToast } from "@/services/toastServices";
 
 const MovieForm = (props: any) => {
   const { movieDetails } = props;
   const [fileError, setFileError] = useState<string>("");
   const [thumbnailFile, setThumbnailFile] = useState<any>(null);
+  const dispatch = useDispatch();
   const [thumbnailUrl, setThumbnailUrl] = useState<string | null>("");
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -22,6 +28,16 @@ const MovieForm = (props: any) => {
       thumbnail: movieDetails.thumbnail,
     },
   });
+
+  useEffect(() => {
+    debugger
+    reset({
+      title: movieDetails.title,
+      publishingYear: movieDetails.year,
+      thumbnail: movieDetails.thumbnail,
+    })
+    setThumbnailUrl(movieDetails.image_url)
+}, [movieDetails]);
 
   //   validate the file formats
   const validateFile = (error: string) => {
@@ -50,55 +66,41 @@ const MovieForm = (props: any) => {
     setThumbnailFile(null);
   };
 
-  const createNewMovie = async (data: any) => {
+  const createOrUpdateMovie = async (data: any) => {
     try {
-      if (!thumbnailFile || movieDetails.thumbnail) {
-        setFileError("Please Select thumbnail");
-        return;
+      if (!movieDetails.id) {
+        if((!thumbnailFile || movieDetails.thumbnail)) {
+          setFileError("Please Select thumbnail");
+          return;
+        }
       }
       const { title, publishingYear } = data;
       const formData = new FormData();
       formData.append("title", title);
-      formData.append("publishingYear", publishingYear);
+      formData.append("year", publishingYear);
       if (thumbnailFile) {
         formData.append("image", thumbnailFile);
       }
-
+      dispatch(setLoader(true));
+      let createdMovieResponse
+      if(movieDetails.id) {
+        createdMovieResponse = await updateMovie(movieDetails.id, formData);
+      } else {
+        createdMovieResponse = await createMovie(formData);
+      }
+      if (createdMovieResponse.status === 200) {
+        sweetAlertToast("info", createdMovieResponse.message);
+        dispatch(setLoader(false));
+      }
       // create  api call
-    } catch (error) {}
-  };
-
-  const updateMovie = async (data: any) => {
-    try {
-      if (!thumbnailFile || movieDetails.thumbnail) {
-        setFileError("Please Select thumbnail");
-        return;
-      }
-
-      const { title, publishingYear } = data;
-      const formData = new FormData();
-      formData.append("title", title);
-      formData.append("publishingYear", publishingYear);
-      if (thumbnailFile) {
-        formData.append("image", thumbnailFile);
-      }
-
-      //  update  api call
-    } catch (error) {}
+    } catch (error) {
+      sweetAlertToast("error", error);
+      dispatch(setLoader(false));
+    }
   };
 
   const onSubmit = (data: any) => {
-    console.log(data);
-    if (movieDetails.id) {
-      updateMovie(data);
-    } else {
-      createNewMovie(data);
-    }
-    if (!thumbnailFile || movieDetails.thumbnail) {
-      setFileError("Please Select thumbnail");
-      return;
-    }
-    // Perform movie creation logic here
+    createOrUpdateMovie(data);
   };
 
   const pageTitle = movieDetails.id ? "Update Movie" : "Create Movie";
@@ -118,12 +120,16 @@ const MovieForm = (props: any) => {
               type="text"
               id="title"
               className="bg-[#0b2c44] text-white px-4 py-3 rounded-lg w-full"
-              {...register("title", { required: true })}
+              {...register("title", {
+                required: "Title is required",
+                minLength: {value: 3, message: "Title should be of min 3"},
+                maxLength: {value: 20, message: "Title should be of max 20"},
+              })}
             />
             {errors.title && (
-              <p className="text-red-500 font-medium text-sm mt-2">
-                Title is required
-              </p>
+              <span className="text-red-500">
+                {(errors.title as { message: string }).message}
+              </span>
             )}
           </div>
           <div className="mb-6">
@@ -139,15 +145,15 @@ const MovieForm = (props: any) => {
               id="publishingYear"
               className="bg-[#0b2c44] text-white px-4 py-3 rounded-lg w-full"
               {...register("publishingYear", {
-                required: true,
-                min: 1900,
-                max: 2100,
+                required: "Publising Year is required",
+                min: {value: 1900, message: "Min publishing year should be 1900"},
+                max: {value: 2024, message: "Max publishing year should be 2024"},
               })}
             />
             {errors.publishingYear && (
-              <p className="text-red-500 font-medium text-sm mt-2">
-                Publishing year must be between 1900 and 2100
-              </p>
+              <span className="text-red-500">
+                {(errors.publishingYear as { message: string }).message}
+              </span>
             )}
           </div>
           <div className="mb-6 border border-dashed border-[#D1CFC7] rounded-lg h-48 w-full overflow-hidden relative flex items-center justify-center">
@@ -157,14 +163,14 @@ const MovieForm = (props: any) => {
                   type="button"
                   className="w-5 h-5 rounded-full bg-[#ffffff] flex items-center justify-center absolute right-2.5 top-2.5 hover:bg-[#454545]"
                 >
-                  <Image
+                  <img
                     onClick={removeImg}
                     className="object-cover h-2"
                     src={close}
                     alt="dog"
                   />
                 </button>
-                <Image
+                <img
                   width={1068}
                   height={646}
                   className="h-full w-full object-cover"

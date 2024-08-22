@@ -1,15 +1,13 @@
-"use client";
-import { useState } from "react";
-import MovieForm from "../../components/forms/MovieForm";
-import { MovieFormInterface } from "../../utility/interface/MovieFormInterface";
-import { hocAuth } from "@/app/components/hoc/HOCAuth";
+"use client"
+import MovieForm from "../../../components/forms/MovieForm";
+import { hocAuth } from "@/components/hoc/HOCAuth";
 
 const CreateMovie = () => {
-  const [movieDetails, setMovieDetails] = useState<MovieFormInterface>({
+
+  return <MovieForm movieDetails={{
     title: "",
     publishingYear: null,
     thumbnail: "",
-  });
-  return <MovieForm movieDetails={movieDetails} />;
+  }} />;
 };
 export default hocAuth(CreateMovie);

@@ -6,7 +6,7 @@ import { emailregex } from "@/utils/regex";
 import { sweetAlertToast } from "../services/toastServices";
 import { login } from "../services/loginService";
 import { saveLocalStorage } from "../services/utils";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setLoader } from "@/redux/loaderSlice";
 
 const Login: React.FC = () => {
