@@ -1,8 +1,10 @@
 "use client";
 import Header from "@/components/header";
 import MovieCard from "@/components/movieCard";
+import MovieListEmpty from "@/components/movieListEmpty";
 import Pagination from "@/components/pagination";
 import { IMovie } from "@/interfaces/movie";
+import { IRedux } from "@/interfaces/redux";
 import { setLoader } from "@/redux/loaderSlice";
 import { setMovieList } from "@/redux/movieListSlice";
 import { getMovies } from "@/services/movieService";
@@ -13,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 const MoviesPage = () => {
+  const loader = useSelector((state: IRedux) => state.loader.loading);
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 10;
   const { push } = useRouter();
@@ -42,7 +45,9 @@ const MoviesPage = () => {
   }, [page]);
 
   const totalPages = Math.ceil(totalItems / itemsPerPage);
-  return (
+  return movies.length === 0 && !loader ? (
+    <MovieListEmpty />
+  ) : (
     <>
       <Header />
       <div className="container mx-auto p-4">

@@ -8,7 +8,7 @@ import { login } from "../services/loginService";
 import { saveLocalStorage } from "../services/utils";
 import { useDispatch } from 'react-redux';
 import { setLoader } from "@/redux/loaderSlice";
-import { hocAuth } from "@/app/components/hoc/HOCAuth";
+import { hocAuth } from "./hoc/HOCAuth";
 
 const Login: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,7 +26,7 @@ const Login: React.FC = () => {
         sweetAlertToast("success", resp.message);
         saveLocalStorage("token", resp.data.token);
         saveLocalStorage("userId", resp.data.id);
-        router.push("/movies");
+        router.push("/movies-list");
       }
       dispatch(setLoader(false));
     } catch (err: any) {

@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
-import errorCross from "../../../public/images/error-cross.svg";
+import errorCross from "../../public/images/error-cross.svg";
 
-const Error = ({message} : any) => {
+const Error: React.FC<{message: string}> = ({message} : any) => {
   return (
     <div className="flex items-center justify-center min-h-screen bg-[#F5F3EF]">
       <div className="text-center max-w-md w-full px-4">

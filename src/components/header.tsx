@@ -10,6 +10,7 @@ const Header = () => {
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-2xl font-bold">
           <Link href="/">Movies</Link>
+        <Link href="/movie/new-movie"> +</Link>
         </h1>
         <nav>
           <ul className="flex space-x-4">

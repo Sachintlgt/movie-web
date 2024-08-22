@@ -18,7 +18,7 @@ export const hocAuth = (OriginalComponent: any) => {
     
     useEffect(() => {
       if (isPublicPath && userToken) {
-        router.push("/movies");
+        router.push("/movies-list");
       } else if (isProtectedPath && !userToken) {
         router.push("/");
       } //eslint-disable-next-line
