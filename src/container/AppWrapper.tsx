@@ -1,4 +1,5 @@
 "use client";
+import FlagDropdown from "@/app/components/Flags";
 import Spinner from "@/components/spinner";
 import { IRedux } from "@/interfaces/redux";
 import React, { useEffect, useState } from "react";
@@ -14,6 +15,7 @@ const AppWrapper = ({ children }: any) => {
   }
   return (
     <>
+      <FlagDropdown />
       {children}
       {loader && <Spinner />}
     </>
