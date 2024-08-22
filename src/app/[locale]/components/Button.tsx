@@ -1,6 +1,6 @@
 import { IButtonProps } from "@/interfaces/buttonProps";
 import React from "react";
-
+// common button component
 const Button: React.FC<IButtonProps> = ({
   type = "button",
   className = "",

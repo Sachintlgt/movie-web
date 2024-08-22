@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-
+// Higher order component to prevent users from accessing the private routes
 export const hocAuth = (OriginalComponent: any) => {
   function HOCAuth(props: any) {
     const router = useRouter();
@@ -12,9 +12,12 @@ export const hocAuth = (OriginalComponent: any) => {
     const pathName = usePathname();
     const { t, i18n } = useTranslation();
     const locale = i18n.language;
-    const publicPaths = [`/${locale}`]; // add public paths here
-    const protectedPaths = [`/${locale}/movies-list`, `/${locale}/movie`]; // add protected routes here
+    // Add public paths here
+    const publicPaths = [`/${locale}`]; 
+    // add protected routes here
+    const protectedPaths = [`/${locale}/movies-list`, `/${locale}/movie`]; 
 
+    // Check if the path is public or private
     const isPublicPath = publicPaths.includes(pathName);
     const isProtectedPath = protectedPaths.some((path) =>
       pathName.startsWith(path)
@@ -22,8 +25,10 @@ export const hocAuth = (OriginalComponent: any) => {
     
     useEffect(() => {
       if (isPublicPath && userToken) {
+        // If user logged in redirect to the movies list
         router.push(`${locale}/movies-list`);
       } else if (isProtectedPath && !userToken) {
+        // Redirect the user to sign in page if try to access the protected route
         router.push(`/${locale}`);
       } //eslint-disable-next-line
     }, [isPublicPath, isProtectedPath, userToken, router, pathName]);

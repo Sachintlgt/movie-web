@@ -19,6 +19,7 @@ import mobileVecter from "@/../public/images/mobile-vector.svg"
 import { useTranslation } from "react-i18next";
 import { hocAuth } from "../components/hoc/HOCAuth";
 
+// Movies list component 
 const MoviesPage = () => {
   const { t } = useTranslation();
   const loader = useSelector((state: IRedux) => state.loader.loading);
@@ -31,6 +32,7 @@ const MoviesPage = () => {
   const movies: IMovie[] = useSelector((state: IRedux) => state.movieList);
 
   useEffect(() => {
+    // get the movies list 
     (async () => {
       try {
         dispatch(setLoader(true));

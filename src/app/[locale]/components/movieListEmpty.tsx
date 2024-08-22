@@ -2,6 +2,7 @@ import Button from "./Button";
 import { useRouter } from "next/navigation"
 import { useTranslation } from 'react-i18next';
 
+// if the Movies list is empty show the Create movie button 
 const MovieListEmpty = () =>  {
   const { t } = useTranslation();
   const { push } = useRouter()

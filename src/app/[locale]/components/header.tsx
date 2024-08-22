@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import Image from "next/image";
 import plus from "@/../public/images/plus-circle.svg"
 import logout from "@/../public/images/logout.svg"
-
+// Header component for the movies list page
 const Header = () => {
   const router = useRouter();
   const { t } = useTranslation();

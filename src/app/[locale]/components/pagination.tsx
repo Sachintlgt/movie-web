@@ -3,6 +3,7 @@ import { IPagination } from "@/interfaces/pagination";
 import React, { Fragment } from "react";
 import { useTranslation } from "react-i18next";
 
+// common pagination component for the listig page
 const Pagination: React.FC<IPagination> = ({
   currentPage,
   totalPages,

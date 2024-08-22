@@ -5,6 +5,8 @@ import { Menu, Transition } from '@headlessui/react'
 import { useTranslation } from 'react-i18next';
 import { usePathname, useRouter } from 'next/navigation';
 type FlagKey = 'en' | 'fr';
+
+// Common flags component to change the languages 
 const flags = {
   en: (
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="24" height="12">

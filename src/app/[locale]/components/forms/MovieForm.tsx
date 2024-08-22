@@ -16,6 +16,8 @@ import vecter from '@/../public/images/bottom-vector.svg'
 import mobilevecter from '@/../public/images/mobile-vector.svg'
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+
+// Common Form for create and update the movie
 const MovieForm = (props: any) => {
   const { t } = useTranslation();
   const { movieDetails } = props;
@@ -38,6 +40,7 @@ const MovieForm = (props: any) => {
   });
 
   useEffect(() => {
+    // Reset the form inputs
     reset({
       title: movieDetails.title,
       publishingYear: movieDetails.year,
@@ -58,6 +61,7 @@ const MovieForm = (props: any) => {
     }
   };
 
+  // handle thumbnail file change 
   const handleFile = (file: any) => {
     if (file) {
       setFileError("");
@@ -66,7 +70,7 @@ const MovieForm = (props: any) => {
       setThumbnailFile(file);
     }
   };
-  // remove file
+  // remove thumbnail  file
   const removeImg = () => {
     setFileError(t("create.form.validation.imageRequired"));
     movieDetails.image_url = "";
@@ -74,6 +78,7 @@ const MovieForm = (props: any) => {
     setThumbnailFile(null);
   };
 
+  // function to create and update the movies data 
   const createOrUpdateMovie = async (data: any) => {
     try {
       if (!movieDetails.id) {
@@ -92,8 +97,10 @@ const MovieForm = (props: any) => {
       dispatch(setLoader(true));
       let createdMovieResponse;
       if (movieDetails.id) {
+        // Update movie api call
         createdMovieResponse = await updateMovie(movieDetails.id, formData);
       } else {
+        // Create movie api call
         createdMovieResponse = await createMovie(formData);
       }
       if (createdMovieResponse.status === 200) {

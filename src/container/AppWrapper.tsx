@@ -4,6 +4,7 @@ import Spinner from "@/app/[locale]/components/spinner";
 import { IRedux } from "@/interfaces/redux";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+
 const AppWrapper = ({ children }: any) => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => {

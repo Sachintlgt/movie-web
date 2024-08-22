@@ -1,5 +1,5 @@
 import React from 'react';
-
+// Common loader component for the app
 const Spinner: React.FC = () => {
   return (
     <>
