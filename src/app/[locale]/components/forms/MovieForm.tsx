@@ -177,9 +177,9 @@ const MovieForm = (props: any) => {
            
             </div>
             {fileError && (
-              <p className="text-red-500 font-medium text-sm mt-2">
+               <span className="text-red-500 text-sm">
                 {fileError}{" "}
-              </p>
+              </span>
             )}
           </div>
           <div className="flex md:hidden  space-x-4 mt-10 md:mt-16 mb-4 ">
@@ -214,7 +214,7 @@ const MovieForm = (props: any) => {
                 })}
               />
               {errors.title && (
-                <span className="text-red-500">
+                 <span className="text-red-500 text-sm">
                   {(errors.title as { message: string }).message}
                 </span>
               )}
@@ -239,7 +239,7 @@ const MovieForm = (props: any) => {
                 })}
               />
               {errors.publishingYear && (
-                <span className="text-red-500">
+                 <span className="text-red-500 text-sm">
                   {(errors.publishingYear as { message: string }).message}
                 </span>
               )}
@@ -247,7 +247,7 @@ const MovieForm = (props: any) => {
 
             <div className="hidden md:flex  space-x-4 mt-10 md:mt-16 mb-4 ">
               <Link
-                href="/"
+                href="/movies-list"
                 type="button"
                 className="bg-transparent border flex items-center border-white text-white px-8 md:px-12 py-2 text-base font-bold h-12 rounded-2lg hover:bg-secondary hover:border-secondary transition-colors duration-300"
               >
