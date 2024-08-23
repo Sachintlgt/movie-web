@@ -208,8 +208,8 @@ const MovieForm = (props: any) => {
                   required: "Title is required",
                   minLength: { value: 3, message: "Title should be of min 3" },
                   maxLength: {
-                    value: 20,
-                    message: "Title should be of max 20",
+                    value: 200,
+                    message: "Title should be of max 200",
                   },
                 })}
               />
