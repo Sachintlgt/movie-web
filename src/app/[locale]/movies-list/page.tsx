@@ -9,7 +9,7 @@ import { setLoader } from "@/redux/loaderSlice";
 import { setMovieList } from "@/redux/movieListSlice";
 import { getMovies } from "@/services/movieService";
 import { sweetAlertToast } from "@/services/toastServices";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -26,6 +26,7 @@ const MoviesPage = () => {
   const [totalItems, setTotalItems] = useState(0);
   const itemsPerPage = 10;
   const { push } = useRouter();
+  
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || "1";
   const dispatch = useDispatch();
@@ -56,6 +57,9 @@ const MoviesPage = () => {
   const handleMovieClick = (id: number) => {
     push(`/movie/${id}`);
   };
+
+
+  
   return movies.length === 0 && !loader ? (
     <MovieListEmpty />
   ) : (

@@ -5,7 +5,6 @@ import { FileUploader } from "react-drag-drop-files";
 import { useForm } from "react-hook-form";
 import close from "@/../public/images/cross.svg";
 import download from "@/../public/images/download_black.svg";
-import Link from "next/link";
 import { createMovie, updateMovie } from "@/services/movieService";
 import { useDispatch } from "react-redux";
 import { setLoader } from "@/redux/loaderSlice";
@@ -121,6 +120,10 @@ const MovieForm = (props: any) => {
   const pageTitle = movieDetails.id
     ? t("create.form.edit")
     : t("create.form.title");
+
+  const handleCancel = () => {
+    router.push("/movies-list");
+  };
   return (
     <>
       <div className="flex justify-center px-6">
@@ -185,13 +188,13 @@ const MovieForm = (props: any) => {
                 )}
               </div>
               <div className="flex md:hidden  space-x-4 mt-10 md:mt-16 mb-4 ">
-                <Link
-                  href="/"
+                <button
                   type="button"
-                  className="bg-transparent border flex items-center border-white text-white px-10 md:px-12 py-2 text-base font-bold h-12 rounded-2lg hover:bg-secondary hover:border-secondary transition-colors duration-300"
+                  onClick={handleCancel}
+                  className="bg-transparent border flex items-center border-white text-white px-8 md:px-12 py-2 text-base font-bold h-auto rounded-2lg hover:bg-secondary hover:border-secondary transition-colors duration-300"
                 >
-                  Cancel
-                </Link>
+                  {t("create.form.cancel")}
+                </button>
                 <Button
                   type="submit"
                   className="bg-primary text-white px-10 md:px-12 py-2 text-base font-bold h-12 rounded-2lg hover:bg-secondary  transition-colors duration-300"
@@ -255,13 +258,13 @@ const MovieForm = (props: any) => {
               </div>
 
               <div className="hidden md:flex  space-x-4 mt-10 md:mt-16 mb-4 ">
-                <Link
-                  href="/movies-list"
+                <button
                   type="button"
+                  onClick={handleCancel}
                   className="bg-transparent border flex items-center border-white text-white px-8 md:px-12 py-2 text-base font-bold h-auto rounded-2lg hover:bg-secondary hover:border-secondary transition-colors duration-300"
                 >
                   {t("create.form.cancel")}
-                </Link>
+                </button>
                 <Button
                   type="submit"
                   className="bg-primary text-white px-8 md:px-12 py-2 text-base font-bold h-auto rounded-2lg hover:bg-secondary  transition-colors duration-300"

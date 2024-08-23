@@ -30,18 +30,27 @@ const flags = {
 };
 
 export default function FlagDropdown() {
-  const [, setCookie] = useCookies(['NEXT_LOCALE']);
+  const [cookie, setCookie] = useCookies(['NEXT_LOCALE']);
     const { i18n } = useTranslation();
     const currentLocale = i18n.language;
-    const [selectedFlag, setSelectedFlag] =  useState<FlagKey>(currentLocale as FlagKey);
+    const [selectedFlag, setSelectedFlag] =  useState<FlagKey>(cookie.NEXT_LOCALE);
     const router = useRouter();
     const pathname = usePathname()
 
   useEffect(() => {
-    i18n.changeLanguage(selectedFlag);
-    setCookie('NEXT_LOCALE',selectedFlag)
-    router.replace(`/${selectedFlag}/${pathname.replace('/fr', '')}`)
+    if(!selectedFlag){
+      i18n.changeLanguage('en');
+      setSelectedFlag('en')
+      setCookie('NEXT_LOCALE','en', {path: '/'})
+    } else {
+      i18n.changeLanguage(selectedFlag);
+      setCookie('NEXT_LOCALE',selectedFlag, {path: '/'})
+    }
+    router.push(`/${selectedFlag}/${pathname.replace('/fr', '')}`)
+    
+    
   }, [selectedFlag])
+    
   return (
     <Menu as="div" className="fixed right-4 top-4 inline-block text-left">
       <div>
